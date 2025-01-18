@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: dynamodb-localstack-ms
+  cloud:
+    aws:
+      endpoint:
+        dynamodb: http://192.168.49.2:4566
+      region:
+        static: us-east-1
+
+aws:
+  region: us-east-1  # Region for LocalStack
+  access-key: test   # Dummy access key (LocalStack ignores it)
+  secret-key: test   # Dummy secret key (LocalStack ignores it)
+  dynamodb:
+    endpoint: http://192.168.49.2:4566  # LocalStack endpoint

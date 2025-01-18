@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aws-ddb-ls-poc
+  namespace: aws-ddb-ls-poc-namespace
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: aws-ddb-ls-poc
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1         # Maximum number of pods to create above the desired replicas during the update
+      maxUnavailable: 1   # Maximum number of pods that can be unavailable during the update
+  template:
+    metadata:
+      labels:
+        app: aws-ddb-ls-poc
+    spec:
+      containers:
+        - name: aws-ddb-ls-poc
+          image: aws-ddb-ls-poc:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aws-ddb-ls-poc
+  namespace: aws-ddb-ls-poc-namespace
+spec:
+  selector:
+    app: aws-ddb-ls-poc
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: NodePort
